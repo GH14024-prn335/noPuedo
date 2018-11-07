@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>SubTipoParte</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+                <f:view>
+            <h:form id="tabla_datos">
+                <h1 align="center"><h:outputText value="SubTipoParte"/></h1>
+                
+                <p:dataTable id="table"
+                             value="#{frmSubTipoParte.lazymodel}" 
+                             var="var"
+                             lazy="true"
+                             paginator="true"
+                             rows="10"
+                             selectionMode="single"
+                             selection="#{frmSubTipoParte.registroEntity}"
+                             disabledSelection="#{frmSubTipoParte.seleccion}">
+
+                    <p:ajax update=":frm_detalle:formulario :frm_detalle:btns" listener="#{frmSubTipoParte.cambiarSeleccion()}" event="rowSelect"/>
+                    <p:column>
+                            <f:facet name="header">
+                                    <h:outputText value="ID"/>
+                            </f:facet>		
+                        <h:outputText value="#{var.idSubTipoParte}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="TipoParte"/>
+                        </f:facet>
+                        <h:outputText value="#{var.idSubTipoParte}"/>
+                    </p:column>
+                    <p:column>
+                            <f:facet name="header">
+                                    <h:outputText value="Nombre"/>
+                            </f:facet>		
+                        <h:outputText value="#{var.nombre}"/>
+                    </p:column>
+                    <p:column>
+                            <f:facet name="header">
+                                    <h:outputText value="Activo"/>
+                            </f:facet>		
+                            <h:outputText value="#{var.activo}"/>
+                    </p:column>
+                    <p:column>
+                            <f:facet name="header">
+                                    <h:outputText value="Observaciones"/>
+                            </f:facet>		
+                        <h:outputText value="#{var.observaciones}"/>
+                    </p:column>
+
+             </p:dataTable>   
+          </h:form>
+              
+          <br/>
+          <h:form id="frm_detalle">
+             <p:panel id="formulario">
+              
+                <p:focus context="formulario"/>
+                
+                <p:panelGrid id="grid_input" columns="3">
+
+                    <h:outputLabel for="id" value="ID"/>
+                    <p:inputText id="id" value="#{frmSubTipoParte.registroEntity.idSubTipoParte}" label="id" readonly="true"/>
+                    <p:message id="msmid" for="id"/>
+                   
+                    <h:outputLabel for="idTipoParte" value="Tipo Parte"/>
+                    <p:selectOneMenu id="idTipoParte" value="#{frmSubTipoParte.registroEntity.idTipoParte}" converter="omnifaces.SelectItemsConverter">
+                        <f:selectItems value="#{frmSubTipoParte.listaTipoParte}" var="tp" itemLabel="#{tp.nombre}" itemValue="#{tp}"/>
+                    </p:selectOneMenu>
+                    <p:message id="msnidTipoParte" for="idTipoParte"/>
+                    
+                    
+                    <h:outputLabel for="name" value="Nombre"/>
+                    <p:inputText id="name" value="#{frmSubTipoParte.registroEntity.nombre}" label="name" required="true" readonly="false"/>
+                    <p:message id="msname" for="name"/>
+
+                     
+                     <h:outputLabel for="actived" value="Activo"/>
+                     <p:selectBooleanCheckbox id="actived" value="#{frmSubTipoParte.registroEntity.activo}" disabled="false"/>
+                     <p:message id="msactived" for="actived"/>
+
+
+                     <h:outputLabel for="observaciones" value="Observaciones"/>
+                     <p:inputTextarea id="observaciones" value="#{frmSubTipoParte.registroEntity.observaciones}" label="observaciones" required="true" readonly="false"/>
+                     <p:message id="msobservaciones" for="observaciones"/>
+                     
+                </p:panelGrid>
+            </p:panel>
+              <p:toolbar id="btns" style="background: whitesmoke" >
+                <f:facet name="left">
+                     <p:commandButton value="Crear" icon="ui-icon-disk"
+                                     validateClient="true" ajax="true"
+                                     update=":tabla_datos frm_detalle:formulario frm_detalle:btns"
+                                     resetValues="true"
+                                     rendered="#{frmSubTipoParte.botonAgregar}"
+                                     actionListener="#{frmSubTipoParte.guardar()}"/>
+                     
+                     <p:commandButton value="Editar" icon="ui-icon-pencil"
+                                     validateClient="true" ajax="true"
+                                     update=":tabla_datos frm_detalle:formulario frm_detalle:btns"
+                                     rendered="#{frmSubTipoParte.botones}"
+                                     actionListener="#{frmSubTipoParte.Modificar}"/>
+                     
+                     <p:commandButton value="Eliminar" icon="ui-icon-trash"
+                                     validateClient="true" ajax="true"
+                                     update=":tabla_datos frm_detalle:formulario frm_detalle:btns"
+                                     rendered="#{frmSubTipoParte.botones}"
+                                     actionListener="#{frmSubTipoParte.Eliminar}"/>
+
+                    <p:commandButton value="Cancelar" icon="ui-icon-cancel"
+                                     validateClient="true" ajax="true"
+                                     update=":tabla_datos frm_detalle:formulario frm_detalle:btns"
+                                     disabled="false" resetValues="true"
+                                     actionListener="#{frmSubTipoParte.cancelar()}"
+                                     immediate="true"/>
+                </f:facet>
+             </p:toolbar>
+          </h:form>
+       </f:view>
+        <br/>
+    </h:body>
+
+    </f:view>
+</html>
